@@ -1,71 +1,180 @@
-# Desafio Front-End iClinic
+## Servidor
 
-## Qual o desafio?
+## Requisitos
 
-Criar uma implementação simplificada de um calendário de eventos, similar ao Google Calendar e a própria Agenda do sistema da iClinic utilizando **React** e **Redux**.
+- Node v8
 
-### Agenda
+### Inicializando o servidor
 
-![p_20180525_151503](https://user-images.githubusercontent.com/679481/40561018-0f93df4c-6032-11e8-8dd6-7664f01df308.png)
+Para utilizá-lo, rode o comando:
 
-- O calendário deve ter **7 colunas fixas**
-- Cada coluna representa **um dia da semana** (de domingo até sábado)
-- Ao carregar a aplicação o calendário **deve exibir a semana atual**
-- No topo de cada coluna deve estar escrito o **dia da semana** junto com o **dia do mês** (ex: Domingo 20 de Maio)
-- Deve haver uma **navegação na agenda** com as opções:
-  - **Semana anterior** | **Essa Semana** | **Próxima Semana**
-- Deve haver **um botão** que ao ser clicado exibe o **formulário de cadastrar eventos**
-- O evento deve aparecer **como um bloco** na coluna correspondente
+```
+npm run start:api
+```
 
-### Formulário de cadastrar eventos
+Um servidor será inicializado na porta `9000`.
 
-![p_20180525_151521](https://user-images.githubusercontent.com/679481/40561028-147f82ea-6032-11e8-9bbf-6690c7fa91cc.png)
+### Interagindo com o servidor
 
-- O Formulário de cadastro de evento deve ter os seguintes campos:
+O servidor expõe quatro rotas:
 
-  - Título do evento
-  - Data (ex: 21/06/2018)
-  - Hora de Início (ex: 10:00) (data em formato 24h)
-  - Hora de fim (ex: 10:30) (data em formato 24h)
+#### Index
 
-- Deve haver um botão que ao ser clicado salve as informações do evento
+Retorna todos os eventos do banco de dados.
 
-### Formulário de editar eventos
+- URL: http://localhost:9000/events/
+- Verb: GET
+- Response:
 
-![p_20180525_152435](https://user-images.githubusercontent.com/679481/40561022-12ecdfa4-6032-11e8-985b-60ffed876501.png)
+  - Type: JSON
+  - Example:
 
-- O formulário de edição do evento deve ter os mesmos campos do formulário de cadastrar eventos
-- Deve haver um botão que ao ser clicado **exclua o evento**
-- Deve haver um botão que ao ser clicado salve as alterações do evento
+    ```js
+    // GET => http://localhost:9000/events/
+    [
+      {
+        id: 1,
+        created_at: 1538587923916,
+        updated_at: 1538587923916,
+        title: 'background',
+        date: '2018-08-30T22:56:01.306Z',
+        start_time: '16:21',
+        end_time: '16:51'
+      },
 
-### Interação entre o formulário e o calendário
+      // ...
 
-- Ao cadastrar um evento ele deve ser exibido na coluna correspondente ao seu dia da semana
-- Os eventos devem estar ordenados na coluna por **Hora de início**
-- Ao **clicar em um evento no calendário** deve abrir o formulário para editar as informações (título, data, hora de início e hora de fim)
+      {
+        id: 20,
+        created_at: 1538587923917,
+        updated_at: 1538587923917,
+        title: 'transitional',
+        date: '2018-08-29T15:17:05.798Z',
+        start_time: '08:59',
+        end_time: '09:29'
+      }
+    ];
+    ```
 
-### Design da aplicação
+#### Create
 
-Embora tenhamos fornecido os protótipos de papel acima, não é necessário seguir a risca. Fique livre para nos mostrar sua criatividade no layout.
+Cria um novo evento e retorna os dados do banco de dados.
 
-### Client JavaScript
+- URL: http://localhost:9000/events/
+- Verb: POST
+- Type: JSON
+- Body:
+  - title: `required`
+  - date: `required` | `date` | `dateFormat: YYYY-MM-DD`
+  - start_time: `required` | `timeFormat: HH:mm`
+  - end_time: `required` | `timeFormat: HH:mm`
+- Example:
 
-Esse repositório contém um servidor mock para você interagir e desenvolver seu sistema. [Clique aqui](/Server.md) para acessar a documentação do servidor.
+  ```json
+  // POST => http://localhost:9000/events/
+  {
+    "title": "My event",
+    "date": "2018-10-03",
+    "start_time": "16:21",
+    "end_time": "16:51"
+  }
+  ```
 
-## Requisitos Técnicos
+- Response:
 
-### Mínimo
+  - Type: JSON
 
-- Utilizar React e Redux
-- Você pode usar outras libraries para ajudar a construir a aplicação
-- **NÃO** utilizar boilerplates de React (Ex: create-react-app, next.js, etc...)
-- Utilizar **ES6/ESNext**
-- Organizar a aplicação em **módulos**
-- Use **Sass** para escrever o CSS
-- Hospede o código em um **repositório no Github**
+  ```js
+  // POST => http://localhost:9000/events/
+  {
+    "id": 21,
+    "created_at": 1538588053744,
+    "updated_at": 1538588053744,
+    "title": "My event",
+    "date": "2018-10-03T00:00:00.000Z",
+    "start_time": "16:21",
+    "end_time": "16:51"
+  }
+  ```
 
-### Bônus
+#### Show
 
-- Utilizar **Webpack**
-- Implementar **testes unitários**
-- Fazer o build da aplicação utilizando **NPM Scripts**
+Retorna o evento com um id específico.
+
+- URL: http://localhost:9000/events/{id}
+- Verb: GET
+- Type: JSON
+
+- Response:
+
+  - Type: JSON
+
+  ```js
+  // GET => http://localhost:9000/events/2
+  {
+    "id": 2,
+    "created_at": 1538587923916,
+    "updated_at": 1538587923916,
+    "title": "grid-enabled",
+    "date": "2018-08-28T06:14:20.538Z",
+    "start_time": "17:07",
+    "end_time": "17:37"
+  }
+  ```
+
+#### Update
+
+Atualiza um evento com um id específico.
+
+- URL: http://localhost:9000/events/{id}
+- Verb: PUT/PATCH
+- Type: JSON
+- Body:
+
+  - title: `required`
+  - date: `required` | `date` | `dateFormat: YYYY-MM-DD`
+  - start_time: `required` | `timeFormat: HH:mm`
+  - end_time: `required` | `timeFormat: HH:mm`
+
+- Example:
+
+  ```json
+  // PATCH => http://localhost:9000/events/21
+  {
+    "title": "My updated event",
+    "date": "2018-10-03",
+    "start_time": "16:21",
+    "end_time": "16:51"
+  }
+  ```
+
+- Response:
+
+  - Type: JSON
+
+  ```js
+  // PATCH => http://localhost:9000/events/21
+  {
+    "id": 21,
+    "created_at": 1538588053744,
+    "updated_at": 1538588149868,
+    "title": "My updated event",
+    "date": "2018-10-03",
+    "start_time": "16:21",
+    "end_time": "16:51"
+  }
+  ```
+
+#### Delete
+
+Retorna o evento com um id específico.
+
+- URL: http://localhost:9000/events/{id}
+- Verb: DELETE
+- Type: JSON
+
+- Response:
+  ```js
+  // DELETE => http://localhost:9000/events/2
+  true;
+  ```
