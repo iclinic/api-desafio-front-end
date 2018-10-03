@@ -1,5 +1,9 @@
 ## Servidor
 
+## Requisitos
+
+- Node v8
+
 ### Inicializando o servidor
 
 Para utilizá-lo, rode o comando:
@@ -126,12 +130,14 @@ Atualiza um evento com um id específico.
 - Verb: PUT/PATCH
 - Type: JSON
 - Body:
+
   - title: `required`
   - date: `required` | `date` | `dateFormat: YYYY-MM-DD`
   - start_time: `required` | `timeFormat: HH:mm`
   - end_time: `required` | `timeFormat: HH:mm`
 
 - Example:
+
   ```json
   // PATCH => http://localhost:9000/events/21
   {
