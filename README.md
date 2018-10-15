@@ -1,8 +1,24 @@
-## Servidor
+# Servidor da API
 
 ## Requisitos
 
-- Node v8
+- Node v8 ou acima
+
+## Rodando o projeto
+
+### Clonando projeto e instalando dependências
+
+Clone esse repositório e acesse o diretório criado. Instale as dependências utilizando:
+
+```
+npm install
+```
+
+ou
+
+```
+yarn
+```
 
 ### Inicializando o servidor
 
@@ -12,7 +28,15 @@ Para utilizá-lo, rode o comando:
 npm run start:api
 ```
 
+ou
+
+```
+yarn start:api
+```
+
 Um servidor será inicializado na porta `9000`.
+
+> __Importante:__ Esse servidor simula um banco de dados e resetará os dados cada vez que for reiniciado.
 
 ### Interagindo com o servidor
 
@@ -70,7 +94,7 @@ Cria um novo evento e retorna os dados do banco de dados.
   - end_time: `required` | `timeFormat: HH:mm`
 - Example:
 
-  ```json
+  ```js
   // POST => http://localhost:9000/events/
   {
     "title": "My event",
@@ -138,7 +162,7 @@ Atualiza um evento com um id específico.
 
 - Example:
 
-  ```json
+  ```js
   // PATCH => http://localhost:9000/events/21
   {
     "title": "My updated event",
