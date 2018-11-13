@@ -10,7 +10,7 @@ module.exports = () => {
   ));
 
   return {
-    start_date: `${start_date.getFullYear()}-${start_date.getMonth()}-${start_date.getDate()}`,
-    end_date: `${end_date.getFullYear()}-${end_date.getMonth()}-${end_date.getDate()}`
+    start_date: `${start_date.getFullYear()}-${start_date.getMonth()+1}-${start_date.getDate()}`,
+    end_date: `${end_date.getFullYear()}-${end_date.getMonth()+1}-${end_date.getDate()}`
   };
 };
